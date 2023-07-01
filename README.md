@@ -9,8 +9,10 @@ the basics of neural networks and build up increasingly complex nets from scratc
 
 ## Implementations
 
-1. [dumb_gates.py](././dumb_gates.py) is a single layer net for AND and OR gates. Uses finite differences
-    instead of derivates/gradients. (~100 LOC)
+1. [hello_world.py](./hello_world.py) is the simplest thing I could come up that could be classifie as machine learning.
+   Extensively documented and this nice for learning purposes. (64 LOC which consists mostly of comments.)
+2. [dumb_gates.py](./dumb_gates.py) is a single layer net for AND and OR gates. Uses finite differences
+   instead of derivates/gradients. (~100 LOC)
 
 ## Ideas for future implementations
 
