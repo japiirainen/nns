@@ -11,3 +11,7 @@ the basics of neural networks and build up increasingly complex nets from scratc
 
 1. [dumb_gates.py](././dumb_gates.py) is a single layer net for AND and OR gates. Uses finite differences
     instead of derivates/gradients. (~100 LOC)
+
+## Ideas for future implementations
+
+- [ ] XOR gate. A single layer net no longer cuts it. Deep Learning here we come :-D
