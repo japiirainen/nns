@@ -1,3 +1,5 @@
+## `nns` contains small neural network implementations
+
 Last midsummer I and a couple of my friends ended up having a quick chat about
 machine learning. I know basically nothing about the subject but proceeded
 to say something along the lines of "You could probably implement a simple neural
