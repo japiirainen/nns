@@ -27,6 +27,7 @@ OR_TRAIN = [
     [1, 1, 1],
 ]
 
+# Change this or `AND_TRAIN` to test AND gate
 TRAIN = OR_TRAIN
 
 X = [x[:2] for x in TRAIN]
