@@ -57,9 +57,9 @@ def v_dot(xs, ys):
     return sum(x * y for x, y in zip(xs, ys))
 
 
-def cost(w, b):
+def loss(w, b):
     """
-    Returns the cost of the model with regards to
+    Returns the loss of the model with regards to
     current weights and biases.
     """
     return (
@@ -72,22 +72,22 @@ def cost(w, b):
     )
 
 
-def dcost(eps, w, b):
+def dloss(eps, w, b):
     """
-    Returns the cost of the model with regards to
+    Returns the loss of the model with regards to
     current weights and biases after shifting by the
     given epsilon.
 
     Here we are using the finite difference method for simplicity.
     In practice, we would would be calculating derivatives.
     """
-    c = cost(w, b)
+    c = loss(w, b)
 
     def add_eps_at(i, x):
         return [a + eps if i == j else a for j, a in enumerate(x)]
 
-    dws = [(cost(add_eps_at(i, w), b) - c) / eps for i in range(len(w))]
-    db = (cost(w, b + eps) - c) / eps
+    dws = [(loss(add_eps_at(i, w), b) - c) / eps for i in range(len(w))]
+    db = (loss(w, b + eps) - c) / eps
     return dws, db
 
 
@@ -98,16 +98,16 @@ if __name__ == "__main__":
     RATE = 0.3
     EPOCH = 1000
 
-    print(f"initial cost: {cost(w, b)}")
+    print(f"initial loss: {loss(w, b)}")
 
     for i in range(10 * EPOCH):
-        dws, db = dcost(1e-1, w, b)
+        dws, db = dloss(1e-1, w, b)
         dws = [RATE * dw for dw in dws]
         w = [a - b for a, b in zip(w, dws)]
         b -= RATE * db
 
         if i % EPOCH == 0:
-            print(f"cost after {i} iterations: {cost(w, b)}")
+            print(f"loss after {i} iterations: {loss(w, b)}")
 
     for i in range(2):
         for j in range(2):
