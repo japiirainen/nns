@@ -24,4 +24,5 @@ the basics of neural networks and build up increasingly complex nets from scratc
 
 ## Ideas for future implementations
 
-- [ ] XOR gate without scala framework?
+- [x] XOR gate without scala framework?
+- [ ] a simple Tensor framework.
