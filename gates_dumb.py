@@ -1,6 +1,13 @@
 """
 In this file we model AND and OR gates using a single neuron. We do things
 very manually without using matrices or gradient descent.
+
+For these simple gates we can use a single neuron 'network'.
+
+ |---|     |---|
+ | x | --> | o |
+ |---|     |---|
+
 """
 
 import math

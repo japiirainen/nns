@@ -11,7 +11,7 @@ the basics of neural networks and build up increasingly complex nets from scratc
 
 1. [hello_world.py](./hello_world.py) is the simplest thing I could come up that could be classifie as machine learning.
    Extensively documented and this nice for learning purposes. (64 LOC which consists mostly of comments.)
-2. [dumb_gates.py](./dumb_gates.py) is a single neuron model for AND and OR gates. Uses finite differences
+2. [gates_dumb.py](./gates_dumb.py) is a single neuron model for AND and OR gates. Uses finite differences
    instead of derivates/gradients. (~100 LOC)
 3. [xor_scalar.py](./xor_scalar.py) is our first multi layer neural network using `scalar framework`. (~50 LOC)
 
