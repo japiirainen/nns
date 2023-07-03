@@ -59,6 +59,19 @@ class Scalar:
 
         return s
 
+    def relu(self):
+        s = Scalar(0 if self.value < 0 else self.value, (self,))
+
+        s.op = "relu"
+        s.label = f"relu({self.label})"
+
+        def _relub():
+            self.grad += (self.value > 0) * s.grad
+
+        s._backward = _relub
+
+        return s
+
     def __add__(self, other):
         if isinstance(other, int):
             other = Scalar(other)
@@ -154,18 +167,27 @@ class Scalar:
 # Neural nets
 
 
+ACTIVATIONS = {
+    "relu": lambda x: x.relu(),
+    "tanh": lambda x: x.tanh(),
+    "linear": lambda x: x,
+}
+
+DEFAULT_ACTIVATION = "tanh"
+
+
 class Neuron:
-    def __init__(self, n_weights, non_linear=True):
+    def __init__(self, n_weights, activation=DEFAULT_ACTIVATION):
         self.w = [Scalar(random.uniform(-1, 1)) for _ in range(n_weights)]
         self.b = Scalar(0.0)
-        self.non_linear = non_linear
+        self.activation = ACTIVATIONS[activation]
 
     def parameters(self):
         return self.w + [self.b]
 
     def forward(self, x):
         n = sum(wi * xi for wi, xi in zip(self.w, x)) + self.b
-        return n.tanh() if self.non_linear else n
+        return self.activation(n)
 
 
 class Layer:
@@ -181,13 +203,12 @@ class Layer:
 
 
 class MultiLayerPerceptron:
-    def __init__(self, n_inputs, n_outputs):
+    def __init__(self, n_inputs, n_outputs, activation=DEFAULT_ACTIVATION):
         ns = [n_inputs] + n_outputs
         # We want the last layer (output) to be linear
-        non_linear = lambda i: i != len(n_outputs) - 1
+        act = lambda i: activation if (i != len(n_outputs) - 1) else "linear"
         self.layers = [
-            Layer(ns[i], ns[i + 1], non_linear=non_linear(i))
-            for i in range(len(n_outputs))
+            Layer(ns[i], ns[i + 1], activation=act(i)) for i in range(len(n_outputs))
         ]
 
     def parameters(self):

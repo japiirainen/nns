@@ -21,12 +21,12 @@ X = [
 
 Y = [0, 1, 1, 0]
 
-model = MultiLayerPerceptron(2, [2, 1])
+model = MultiLayerPerceptron(2, [2, 1], activation="tanh")
 
 
 def loss():
     return sum(
-        (scorei - yi) ** 2 for yi, scorei in zip(Y, (model.forward(xi) for xi in X))
+        ((scorei - yi) ** 2) for yi, scorei in zip(Y, (model.forward(xi) for xi in X))
     )
 
 
