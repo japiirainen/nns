@@ -1,9 +1,10 @@
-"Super simple and **dumb** single layer neural network for AND and OR gates."
+"""
+In this file we model AND and OR gates using a single neuron. We do things
+very manually without using matrices or gradient descent.
+"""
 
 import math
 import random
-
-from functools import reduce
 
 AND_TRAIN = [
     # 0 && 0 == 0
@@ -37,80 +38,63 @@ TRAIN_COUNT = len(TRAIN)
 
 
 def sigmoid(x):
-    """
-    Sigmoid function. Maps any real number to [0, 1].
-    """
     return 1 / (1 + math.exp(-x))
 
 
-def rand_vec(n):
-    """
-    Returns a vector of length `n` contained of random real numbers.
-    """
-    return [random.random() for _ in range(n)]
+# In `forward` we compute the output of the model for a given input.
+def forward(w1, w2, x1, x2, b):
+    return sigmoid(x1 * w1 + x2 * w2 + b)
 
 
-def v_dot(xs, ys):
-    """
-    Returns the dot product of two vectors.
-    """
-    return sum(x * y for x, y in zip(xs, ys))
+# In `loss` we compute the mean squared error of the model on the training data.
+def loss(w1, w2, b):
+    out = 0.0
+
+    for i in range(TRAIN_COUNT):
+        out += (forward(w1, w2, X[i][0], X[i][1], b) - Y[i]) ** 2
+
+    return out / TRAIN_COUNT
 
 
-def loss(w, b):
-    """
-    Returns the loss of the model with regards to
-    current weights and biases.
-    """
-    return (
-        reduce(
-            lambda acc, i: acc + (sigmoid(v_dot(w, X[i]) + b) - Y[i]) ** 2,
-            range(TRAIN_COUNT),
-            0,
-        )
-        / TRAIN_COUNT
-    )
+# In `dloss` we approximate the derivative of the loss function with respect to
+# each weight and bias by using finite differences.
+def dloss(eps, w1, w2, b):
+    l = loss(w1, w1, b)
 
+    dw1 = (loss(w1 + eps, w2, b) - l) / eps
+    dw2 = (loss(w1, w2 + eps, b) - l) / eps
+    db = (loss(w1, w2, b + eps) - l) / eps
 
-def dloss(eps, w, b):
-    """
-    Returns the loss of the model with regards to
-    current weights and biases after shifting by the
-    given epsilon.
-
-    Here we are using the finite difference method for simplicity.
-    In practice, we would would be calculating derivatives.
-    """
-    c = loss(w, b)
-
-    def add_eps_at(i, x):
-        return [a + eps if i == j else a for j, a in enumerate(x)]
-
-    dws = [(loss(add_eps_at(i, w), b) - c) / eps for i in range(len(w))]
-    db = (loss(w, b + eps) - c) / eps
-    return dws, db
+    return dw1, dw2, db
 
 
 if __name__ == "__main__":
-    w = rand_vec(2)
+    # Initialize model with random weights and biases
+    w1 = random.random()
+    w2 = random.random()
     b = random.random()
 
-    RATE = 0.3
+    print(f"initial weights: {w1}, {w2}, {b}")
+
+    RATE = 0.1
     EPOCH = 1000
 
-    print(f"initial loss: {loss(w, b)}")
+    print(f"initial loss: {loss(w1, w2, b)}")
 
     for i in range(10 * EPOCH):
-        dws, db = dloss(1e-1, w, b)
-        dws = [RATE * dw for dw in dws]
-        w = [a - b for a, b in zip(w, dws)]
+        EPS = 0.1
+        dw1, dw2, db = dloss(EPS, w1, w2, b)
+        # Update weights and biases.
+        # This is where the so called 'learning' happens.
+        w1 -= RATE * dw1
+        w2 -= RATE * dw2
         b -= RATE * db
 
         if i % EPOCH == 0:
-            print(f"loss after {i} iterations: {loss(w, b)}")
+            print(f"loss after {i} iterations: {loss(w1, w2, b)}")
 
     for i in range(2):
         for j in range(2):
             print(
-                f"{('AND' if TRAIN == AND_TRAIN else 'OR')}({i}, {j}) = {sigmoid(w[0] * i + w[1] * j + b)}"
+                f"{('AND' if TRAIN == AND_TRAIN else 'OR')}({i}, {j}) = {sigmoid(w1 * i + w2 * j + b)}"
             )
