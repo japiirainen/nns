@@ -21,34 +21,37 @@ X = [
 
 Y = [0, 1, 1, 0]
 
-model = MultiLayerPerceptron(2, [2, 1], activation="tanh")
 
+if __name__ == "__main__":
+    # We use model with 2 inputs, 2 hidden units and 1 output.
+    #
+    # |---|       |---|
+    # | a | ----> | c |\
+    # |---| \  /  |---| \    |---|
+    #        \/          --> | o |
+    # |---|  /\   |---| /    |---|
+    # | b | /---> | d |/
+    # |---|       |---|
+    #
+    model = MultiLayerPerceptron(2, [2, 1], activation="tanh")
 
-def loss():
-    return sum(
-        ((scorei - yi) ** 2) for yi, scorei in zip(Y, (model.forward(xi) for xi in X))
-    )
+    for i in range(1000):
+        # Forward pass
+        scores = [model.forward(xi) for xi in X]
+        total_loss = sum(((si - yi) ** 2) for yi, si in zip(Y, scores))
 
+        if total_loss.value < 1e-5:
+            break
 
-for i in range(1000):
-    # Forward pass
-    total_loss = loss()
+        # Backward pass
+        model.zero_grad()
+        total_loss.backward()
 
-    if total_loss.value < 1e-5:
-        break
+        # Update parameters
+        LEARNING_RATE = 0.1
+        for p in model.parameters():
+            p.value -= LEARNING_RATE * p.grad
 
-    # Backward pass
-    model.zero_grad()
-    total_loss.backward()
-
-    # Update parameters
-    LEARNING_RATE = 0.1
-    for p in model.parameters():
-        p.value -= LEARNING_RATE * p.grad
-
-    if i % 25 == 0:
-        print(f"i = {i}, total loss = {total_loss.value:.4f}")
-
-for i in range(2):
-    for j in range(2):
-        print(f"{i} XOR {j} -> {model.forward([i, j]).value:.4f}")
+    for i in range(2):
+        for j in range(2):
+            print(f"{i} XOR {j} -> {model.forward([i, j]).value:.4f}")
