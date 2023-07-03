@@ -4,9 +4,13 @@ very manually without using matrices or gradient descent.
 
 For these simple gates we can use a single neuron 'network'.
 
- |---|     |---|
- | x | --> | o |
- |---|     |---|
+ |---|
+ | a |\
+ |---| \    |---|     |---|
+        --> | c | --> | o |
+ |---| /    |---|     |---|
+ | b |/
+ |---|
 
 """
 
