@@ -7,7 +7,7 @@ For these simple gates we can use a single neuron 'network'.
  |---|
  | a |\
  |---| \    |---|     |---|
-        --> | c | --> | o |
+         --> | c | --> | o |
  |---| /    |---|     |---|
  | b |/
  |---|

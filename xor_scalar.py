@@ -23,16 +23,6 @@ Y = [0, 1, 1, 0]
 
 
 if __name__ == "__main__":
-    # We use model with 2 inputs, 2 hidden units and 1 output.
-    #
-    # |---|       |---|
-    # | a | ----> | c |\
-    # |---| \  /  |---| \    |---|
-    #        \/          --> | o |
-    # |---|  /\   |---| /    |---|
-    # | b | /---> | d |/
-    # |---|       |---|
-    #
     model = MultiLayerPerceptron(2, [2, 1], activation="tanh")
 
     for i in range(1000):
