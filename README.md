@@ -13,7 +13,9 @@ the basics of neural networks and build up increasingly complex nets from scratc
    Extensively documented and this nice for learning purposes. (64 LOC which consists mostly of comments.)
 2. [gates_dumb.py](./gates_dumb.py) is a single neuron model for AND and OR gates. Uses finite differences
    instead of derivates/gradients. (~100 LOC)
-3. [xor_scalar.py](./xor_scalar.py) is our first multi layer neural network using `scalar framework`. (~50 LOC)
+4. [xor_dumb.py](./xor_dumb.py) is similar to `gates_dumb` except that is uses a more complex model
+   so that it can model the XOR gate.
+4. [xor_scalar.py](./xor_scalar.py) is our first multi layer neural network using `scalar framework`. (~50 LOC)
 
 ## Frameworks
 
