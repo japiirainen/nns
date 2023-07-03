@@ -1,1 +1,5 @@
 .direnv/
+*.gv
+*.pdf
+
+__pycache__/

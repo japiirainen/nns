@@ -1,5 +1,5 @@
 {
-  description = "python310 devenv";
+  description = "nns dev environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-22.11";
@@ -32,6 +32,8 @@
         ] ++
         (with pkgs.python310Packages; [
           vulture
+          graphviz
+          numpy
         ]);
 
         shellHook = ''
