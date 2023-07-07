@@ -1,4 +1,4 @@
-## `nns` contains small neural network implementations
+## `nns` contains hello world machine learning examples
 
 Last midsummer I and a couple of my friends ended up having a quick chat about
 machine learning. I know basically nothing about the subject but proceeded
